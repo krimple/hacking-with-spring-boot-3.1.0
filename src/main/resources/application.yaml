@@ -1,0 +1,9 @@
+spring:
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      mode: always
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
