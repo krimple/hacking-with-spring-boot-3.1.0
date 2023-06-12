@@ -1,5 +1,6 @@
 package com.chariot.webfluxandreactivespringdemos.caching;
 
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -12,13 +13,11 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import(CustomerService.class)
-public class CustomerCachingRepositoryIT {
+public class CustomerCachingRepositoryIT implements WithAssertions {
 
   @Container
   @ServiceConnection
@@ -36,8 +35,8 @@ public class CustomerCachingRepositoryIT {
     CustomerCacheEntry cacheEntry = new CustomerCacheEntry("1", "Customer");
     customerService.createCustomer(cacheEntry);
     CustomerCacheEntry customerFromCache = customerService.getCustomer(cacheEntry.getCustomerId());
-    assertEquals("1", customerFromCache.getCustomerId());
-    assertEquals("Customer", customerFromCache.getName());
+    assertThat(customerFromCache.getCustomerId()).isEqualTo("1");
+    assertThat(customerFromCache.getName()).isEqualTo("Customer");
 
     /*
     Product product = new Product("1", "Test Product", 10.0);

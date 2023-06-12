@@ -1,6 +1,7 @@
 package com.chariot.webfluxandreactivespringdemos.caching;
 
 import com.google.gson.Gson;
+import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
@@ -10,10 +11,8 @@ import redis.clients.jedis.Jedis;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @Testcontainers
-public class RedisJedisSimpleDataIT {
+public class RedisJedisSimpleDataIT implements WithAssertions {
 
   record MyMessage(String message, String date) { }
 
@@ -41,7 +40,7 @@ public class RedisJedisSimpleDataIT {
       jedis.set("data", data);
       String response = jedis.get("data");
       var fetchedData = gson.fromJson(response, MyMessage.class);
-      assertEquals(demoMessage, fetchedData);
+      assertThat(fetchedData).isEqualTo(demoMessage);
       jedis.close();
     } catch (Exception e) {
       e.printStackTrace();
