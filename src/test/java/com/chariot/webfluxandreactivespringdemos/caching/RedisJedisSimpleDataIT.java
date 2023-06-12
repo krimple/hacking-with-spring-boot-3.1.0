@@ -1,10 +1,8 @@
 package com.chariot.webfluxandreactivespringdemos.caching;
 
 import com.google.gson.Gson;
-import org.junit.Rule;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.annotation.DirtiesContext;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -15,7 +13,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Testcontainers
-public class RedisJedisSimpleDataTests {
+public class RedisJedisSimpleDataIT {
 
   record MyMessage(String message, String date) { }
 

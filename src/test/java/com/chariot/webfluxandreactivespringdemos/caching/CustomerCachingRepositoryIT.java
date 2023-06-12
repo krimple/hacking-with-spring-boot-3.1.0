@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import(CustomerService.class)
-public class CustomerCachingRepositoryTests {
+public class CustomerCachingRepositoryIT {
 
   @Container
   @ServiceConnection
