@@ -10,5 +10,7 @@ public class RedisLettuceAsyncCachingRepositoryIT implements WithAssertions {
   @Test
   public void testLettuceConnectionToRedis() {
 
+
+
   }
 }
