@@ -5,11 +5,13 @@ import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
+
 @Builder
 @Getter
-@RedisHash
-public class CustomerCacheEntry {
+@RedisHash("Customer")
+public class CustomerCacheEntry implements Serializable {
   @Id
-  private String customerId;
+  private int id;
   private String name;
 }

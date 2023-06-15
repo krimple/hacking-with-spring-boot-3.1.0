@@ -26,6 +26,29 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-bom</artifactId>
+				<version>2023.0.0</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<!-- CVE fixes - force snakeyaml to 2.0 -->
+			<dependency>
+				<groupId>org.yaml</groupId>
+				<artifactId>snakeyaml</artifactId>
+				<version>2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.testcontainers</groupId>
+				<artifactId>testcontainers-bom</artifactId>
+				<version>1.18.1</version>
+			</dependency>
+			<dependency>
+				<groupId>com.redis.testcontainers</groupId>
+				<artifactId>testcontainers-bom</artifactId>
+				<version>1.15.3</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
@@ -79,7 +102,7 @@
 		<dependency>
 			<groupId>io.lettuce</groupId>
 			<artifactId>lettuce-core</artifactId>
-			<version>6.2.3.RELEASE</version>
+			<version>6.2.4.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>io.projectreactor</groupId>
@@ -115,7 +138,6 @@
 		<dependency>
 			<groupId>com.redis.testcontainers</groupId>
 			<artifactId>testcontainers-redis</artifactId>
-			<version>1.4.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testcontainers</groupId>

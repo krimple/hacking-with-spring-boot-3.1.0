@@ -1,28 +1,36 @@
 package com.chariot.webfluxandreactivespringdemos.caching;
 
-import io.lettuce.core.api.reactive.RedisStringReactiveCommands;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.core.ReactiveRedisCallback;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+@Service
 public class CustomerAsyncService {
 
-  private final RedisStringReactiveCommands<String, String> redisStringPrimaryCommands;
-  private final RedisStringReactiveCommands<String, String> redisStringSecondaryCommands;
+  private ReactiveRedisTemplate redisTemplate;
 
-  public CustomerAsyncService(
-      @Qualifier("redis-primary-commands") RedisStringReactiveCommands<String, String> redisStringPrimaryCommands,
-      @Qualifier("redis-secondary-commands") RedisStringReactiveCommands<String, String> redisStringSecondaryCommands) {
-    this.redisStringPrimaryCommands = redisStringPrimaryCommands;
-    this.redisStringSecondaryCommands = redisStringSecondaryCommands;
+  @Autowired
+  public CustomerAsyncService(@Qualifier("") ReactiveRedisTemplate redisTemplate) {
+    this.redisTemplate = redisTemplate;
   }
 
-  public Mono<Void> writeCustomer(CustomerCacheEntry customer) {
-    return this.redisStringPrimaryCommands.set(customer.getCustomerId(), customer.getName())
-        .then();
+
+  public Mono writeCustomer(CustomerCacheEntry customer) throws Exception {
+    return redisTemplate.opsForList().rightPush(customer.getId(), customer);
   }
 
-  public Mono<CustomerCacheEntry> getCustomer(String id) {
-    return this.redisStringSecondaryCommands.get(id)
-        .map(response -> CustomerCacheEntry.builder().customerId(id).name(response).build());
+  /**
+   * WRONG - shoould return the
+   * @param id
+   * @return
+   */
+  public Mono<CustomerCacheEntry> getCustomer(int id) {
+    return redisTemplate.execute((ReactiveRedisCallback cb) -> {
+      cb.doInRedis(//);
+    });
   }
 }
