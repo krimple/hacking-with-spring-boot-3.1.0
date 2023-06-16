@@ -8,13 +8,15 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.UUID;
+
 @Service
 public class CustomerAsyncService {
 
   private ReactiveRedisTemplate redisTemplate;
 
   @Autowired
-  public CustomerAsyncService(@Qualifier("") ReactiveRedisTemplate redisTemplate) {
+  public CustomerAsyncService(@Qualifier("reactiveRedisTemplate") ReactiveRedisTemplate redisTemplate) {
     this.redisTemplate = redisTemplate;
   }
 
@@ -24,13 +26,10 @@ public class CustomerAsyncService {
   }
 
   /**
-   * WRONG - shoould return the
    * @param id
    * @return
    */
-  public Mono<CustomerCacheEntry> getCustomer(int id) {
-    return redisTemplate.execute((ReactiveRedisCallback cb) -> {
-      cb.doInRedis(//);
-    });
+  public Mono<CustomerCacheEntry> getCustomer(UUID id) {
+    return Mono.from(redisTemplate.opsForList().range("CustomerCacheEntry", 0, -1));
   }
 }

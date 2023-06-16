@@ -6,12 +6,33 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
+import java.util.UUID;
 
-@Builder
-@Getter
 @RedisHash("Customer")
 public class CustomerCacheEntry implements Serializable {
   @Id
-  private int id;
+  private UUID id;
   private String name;
+
+  public CustomerCacheEntry(UUID id, String name) {
+    this.id = id;
+    this.name = name;
+  }
+
+  public CustomerCacheEntry(String name) {
+    this.id = UUID.randomUUID();
+    this.name = name;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
+  public UUID getId() {
+    return id;
+  }
+
+  public String getName() {
+    return name;
+  }
 }

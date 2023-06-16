@@ -5,5 +5,16 @@ spring:
       mode: always
   data:
     redis:
-      host: 127.0.0.1
-      port: 6379
+      host: localhost
+      jedis:
+        pool:
+          enabled: true
+          max-active: 8
+          max-wait: 1s
+          min-idle: 0
+      lettuce:
+        pool:
+          enabled: true
+          max-active: 8
+          max-wait: 1s
+          min-idle: 0

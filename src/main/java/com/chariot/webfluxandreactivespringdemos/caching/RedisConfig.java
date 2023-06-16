@@ -34,7 +34,7 @@ public class RedisConfig {
   /**
    * Source: https://medium.com/javarevisited/caching-with-spring-boot-3-lettuce-and-redis-sentinel-5f6fab7e58f8
    */
-  @Bean
+  @Bean("reactiveRedisTemplate")
   public ReactiveRedisTemplate reactiveJsonCustomerCacheEntryRedisTemplate() {
     var serializer = new Jackson2JsonRedisSerializer<>(CustomerCacheEntry.class);
 
