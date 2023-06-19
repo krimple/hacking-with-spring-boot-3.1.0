@@ -11,7 +11,7 @@ import java.util.UUID;
 @Service
 public class CustomerAsyncService {
 
-  private ReactiveRedisTemplate redisTemplate;
+  private final ReactiveRedisTemplate<UUID, CustomerCacheEntry> redisTemplate;
 
   @Autowired
   public CustomerAsyncService(
@@ -20,15 +20,12 @@ public class CustomerAsyncService {
   }
 
 
-  public Mono<Long> writeCustomer(CustomerCacheEntry customer) throws Exception {
+  public Mono<Long> writeCustomer(CustomerCacheEntry customer) {
+    // fork it, man
     return redisTemplate.opsForList().rightPush(customer.getId(), customer);
   }
 
-  /**
-   * @param id
-   * @return
-   */
-  public Mono<CustomerCacheEntry> getCustomer(UUID id) throws Exception {
-    return Mono.from(redisTemplate.opsForList().range("CustomerCacheEntry", 0, -1));
+  public Mono<CustomerCacheEntry> getCustomer(UUID id) {
+    return Mono.from(redisTemplate.opsForList().range(id, 0, -1));
   }
 }

@@ -2,20 +2,16 @@ package com.chariot.webfluxandreactivespringdemos.caching;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.cache.RedisCacheConfiguration;
-import org.springframework.data.redis.cache.RedisCacheManager;
-import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.*;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.util.Collections;
 import java.util.UUID;
 
 /**
@@ -40,7 +36,8 @@ public class RedisConfig {
     var serializer = new Jackson2JsonRedisSerializer<>(CustomerCacheEntry.class);
 
     RedisSerializationContext.RedisSerializationContextBuilder<UUID, CustomerCacheEntry> builder
-        = RedisSerializationContext.newSerializationContext(new StringRedisSerializer());
+        = RedisSerializationContext.newSerializationContext(
+            new GenericToStringSerializer<>(UUID.class));
 
     var serializationContext = builder.value(serializer).build();
     return new ReactiveRedisTemplate<>(redisConnectionFactory(), serializationContext);
