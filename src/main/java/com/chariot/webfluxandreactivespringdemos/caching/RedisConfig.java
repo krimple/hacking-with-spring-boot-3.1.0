@@ -16,6 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
 
 import java.util.Collections;
+import java.util.UUID;
 
 /**
  * From https://github.com/spring-projects/spring-data-examples
@@ -35,14 +36,14 @@ public class RedisConfig {
    * Source: https://medium.com/javarevisited/caching-with-spring-boot-3-lettuce-and-redis-sentinel-5f6fab7e58f8
    */
   @Bean("reactiveRedisTemplate")
-  public ReactiveRedisTemplate reactiveJsonCustomerCacheEntryRedisTemplate() {
+  public ReactiveRedisTemplate<UUID, CustomerCacheEntry> reactiveJsonCustomerCacheEntryRedisTemplate() {
     var serializer = new Jackson2JsonRedisSerializer<>(CustomerCacheEntry.class);
 
-    RedisSerializationContext.RedisSerializationContextBuilder<String, CustomerCacheEntry> builder
+    RedisSerializationContext.RedisSerializationContextBuilder<UUID, CustomerCacheEntry> builder
         = RedisSerializationContext.newSerializationContext(new StringRedisSerializer());
 
     var serializationContext = builder.value(serializer).build();
-    return new ReactiveRedisTemplate(redisConnectionFactory(), serializationContext);
+    return new ReactiveRedisTemplate<>(redisConnectionFactory(), serializationContext);
   }
 }
 

@@ -24,6 +24,10 @@ public class CustomerCacheEntry implements Serializable {
     this.name = name;
   }
 
+  public CustomerCacheEntry() {
+
+  }
+
   public void setId(UUID id) {
     this.id = id;
   }

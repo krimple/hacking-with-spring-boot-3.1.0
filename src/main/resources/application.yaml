@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: default
   sql:
     init:
       schema-locations: classpath:schema.sql

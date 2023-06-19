@@ -2,7 +2,6 @@ package com.chariot.webfluxandreactivespringdemos.shellui;
 
 import com.chariot.webfluxandreactivespringdemos.caching.CustomerAsyncService;
 import com.chariot.webfluxandreactivespringdemos.caching.CustomerCacheEntry;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
@@ -12,7 +11,7 @@ public class RedisCommands {
 
     private CustomerAsyncService service;
 
-    @Autowired
+    //@Autowired
     public void setService(CustomerAsyncService service) {
         this.service = service;
     }

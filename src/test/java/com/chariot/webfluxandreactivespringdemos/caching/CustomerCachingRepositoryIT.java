@@ -13,38 +13,31 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import java.util.UUID;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @Import(CustomerService.class)
 public class CustomerCachingRepositoryIT implements WithAssertions {
 
-  @Container
-  @ServiceConnection
-  static GenericContainer<?> redis =
-        new GenericContainer<>(
-          DockerImageName
-              .parse("redis:7.0.11-alpine"))
-              .withExposedPorts(6379);
-
   @Autowired
   private CustomerService customerService;
 
   @Test
   void findCustomerById() {
-//    CustomerCacheEntry cacheEntry = new CustomerCacheEntry("1", "Customer");
-//    customerService.createCustomer(cacheEntry);
-//    CustomerCacheEntry customerFromCache = customerService.getCustomer(cacheEntry.getCustomerId());
-//    assertThat(customerFromCache.getCustomerId()).isEqualTo("1");
-//    assertThat(customerFromCache.getName()).isEqualTo("Customer");
-
-    /*
-    Product product = new Product("1", "Test Product", 10.0);
-    productService.createProduct(product);
-    Product productFromDb = productService.getProduct("1");
-    assertEquals("1", productFromDb.getId());
-    assertEquals("Test Product", productFromDb.getName());
-    assertEquals(10.0, productFromDb.getPrice());
-     */
+    try (var redis = new GenericContainer<>(DockerImageName.parse("redis:7.0.11-alpine"))) {
+      redis
+              .withReuse(false)
+              .withAccessToHost(true)
+              .withExposedPorts(6379)
+              .start();
+      UUID entryKey = UUID.randomUUID();
+      CustomerCacheEntry cacheEntry = new CustomerCacheEntry(entryKey, "Customer");
+      customerService.createCustomer(cacheEntry);
+      CustomerCacheEntry customerFromCache = customerService.getCustomer(cacheEntry.getId());
+      assertThat(customerFromCache.getId()).isEqualTo(entryKey);
+      assertThat(customerFromCache.getName()).isEqualTo("Customer");
+    }
   }
 }

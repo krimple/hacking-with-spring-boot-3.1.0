@@ -2,5 +2,7 @@ package com.chariot.webfluxandreactivespringdemos.caching;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface CustomerCacheRepository extends CrudRepository<CustomerCacheEntry, String> {
+import java.util.UUID;
+
+public interface CustomerCacheRepository extends CrudRepository<CustomerCacheEntry, UUID> {
 }
