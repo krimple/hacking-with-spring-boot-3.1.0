@@ -1,5 +1,6 @@
 package com.chariot.webfluxandreactivespringdemos.caching;
 
+import com.chariot.webfluxandreactivespringdemos.caching.entities.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -12,11 +13,11 @@ public class CustomerService {
     this.customerRepository = customerRepository;
   }
 
-  public CustomerCacheEntry getCustomer(UUID id) {
+  public Customer getCustomer(UUID id) {
     return this.customerRepository.findById(id).orElse(null);
   }
 
-  public void createCustomer(CustomerCacheEntry customer) {
+  public void createCustomer(Customer customer) {
     this.customerRepository.save(customer);
   }
 }

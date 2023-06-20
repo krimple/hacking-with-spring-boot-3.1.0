@@ -1,15 +1,14 @@
 package com.chariot.webfluxandreactivespringdemos.caching;
 
+import com.chariot.webfluxandreactivespringdemos.caching.entities.Customer;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Import;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
@@ -33,9 +32,9 @@ public class CustomerCachingRepositoryIT implements WithAssertions {
               .withExposedPorts(6379)
               .start();
       UUID entryKey = UUID.randomUUID();
-      CustomerCacheEntry cacheEntry = new CustomerCacheEntry(entryKey, "Customer");
+      Customer cacheEntry = new Customer(entryKey, "Customer");
       customerService.createCustomer(cacheEntry);
-      CustomerCacheEntry customerFromCache = customerService.getCustomer(cacheEntry.getId());
+      Customer customerFromCache = customerService.getCustomer(cacheEntry.getId());
       assertThat(customerFromCache.getId()).isEqualTo(entryKey);
       assertThat(customerFromCache.getName()).isEqualTo("Customer");
     }

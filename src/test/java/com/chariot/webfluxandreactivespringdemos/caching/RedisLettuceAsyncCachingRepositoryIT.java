@@ -1,5 +1,6 @@
 package com.chariot.webfluxandreactivespringdemos.caching;
 
+import com.chariot.webfluxandreactivespringdemos.caching.entities.Customer;
 import org.assertj.core.api.WithAssertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ public class RedisLettuceAsyncCachingRepositoryIT implements WithAssertions {
           .withAccessToHost(true)
           .withExposedPorts(6379)
           .start();
-      CustomerCacheEntry cacheEntry = new CustomerCacheEntry(UUID.randomUUID(), "Customer");
+      Customer cacheEntry = new Customer(UUID.randomUUID(), "Customer");
 
 
 //      long handle = customerService.writeCustomer(cacheEntry).then()

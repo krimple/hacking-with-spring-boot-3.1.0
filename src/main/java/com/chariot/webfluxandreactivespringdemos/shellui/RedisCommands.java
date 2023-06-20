@@ -1,7 +1,7 @@
 package com.chariot.webfluxandreactivespringdemos.shellui;
 
 import com.chariot.webfluxandreactivespringdemos.caching.CustomerAsyncService;
-import com.chariot.webfluxandreactivespringdemos.caching.CustomerCacheEntry;
+import com.chariot.webfluxandreactivespringdemos.caching.entities.Customer;
 import com.chariot.webfluxandreactivespringdemos.caching.CustomerCacheRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.standard.ShellComponent;
@@ -40,7 +40,7 @@ public class RedisCommands {
             @ShellOption() String arg
     ) {
         UUID newKey = UUID.randomUUID();
-        Long numRows = this.service.writeCustomer(new CustomerCacheEntry(newKey, arg)).block(Duration.ofSeconds(10));
+        Long numRows = this.service.writeCustomer(new Customer(newKey, arg)).block(Duration.ofSeconds(10));
         if (numRows != null) {
             return String.format("customer added - UUID: %s, name: %s, list now has %d entries\r",
                 newKey.toString(), arg, numRows);
@@ -75,7 +75,7 @@ public class RedisCommands {
      */
     @ShellMethod(key = "add-customer-crud")
     public String addCustomerSpringDataCrud(@ShellOption String name ) {
-        var insertedCustomer = repository.save(new CustomerCacheEntry(name));
+        var insertedCustomer = repository.save(new Customer(name));
         return insertedCustomer.toString();
 
     }
