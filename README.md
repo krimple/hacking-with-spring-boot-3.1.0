@@ -1,6 +1,18 @@
-# Sample Spring Boot application
+# Hacking with Spring Boot
 
-Using JDK 20+ and Maven 3.9.x, the Spring Boot starters.
+Using JDK 20+ and Maven 3.9.x, the Spring Boot starters to show off a few features for a series of articles.
+
+This project will be added to over time as additional demos are created.
+
+## Demonstrations
+
+### Using Spring Shell
+
+Running the `./run-with-spring-shell.sh` script will launch the Spring Boot application and then begin a Spring Shell session. Commands are defined in the `...shellui` package. The commands let the user interact with a Redis server.
+
+### Using JShell with Spring Boot
+
+Running the `./jshell.sh` script builds the project and then launches JShell, booting the Spring container and exposing it as `context` in the shell itself. Any Spring component can then be accessed via `getBean` on the `context` object and called.
 
 ## API Choices
 
