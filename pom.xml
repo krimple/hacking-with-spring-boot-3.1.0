@@ -186,52 +186,7 @@
 		</dependency>
 	</dependencies>
 
-	<profiles>
-		<profile>
-			<id>default</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-		<!-- activate Spring Shell - does not currently work, either with jvmArguments
-		     or arguments. Use the script ./run-with-jshell.sh for a working way to pass
-		     args when running on the cli.
-
-		     If spring shell is enabled by default, no integration tests complete because the
-		     app starts with an interactive shell. I've defaulted the settings for interactive
-		     shell to false, AND by default spring shell accepts a single command for the
-		     noninteractive shell, so if you try to pass properties to the boot engine it
-		     tries to run one as a shell command. That was fun to find too. I've also turned
-		     off the noninteractive shell support by default. Both are found in the application.yaml
-		     file in the src/main/resources file.
-		 -->
-		<profile>
-			<id>add-shell</id>
-			<build>
-				<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<configuration>
-						<jvmArguments>
-							  -Dspring-boot.run.arguments="--spring.shell.interactive.enabled=true"
-						</jvmArguments>
-					</configuration>
-				</plugin>
-			</plugins>
-			</build>
-
-			<dependencies>
-				<dependency>
-					<groupId>org.springframework.shell</groupId>
-					<artifactId>spring-shell-starter</artifactId>
-					<version>${spring-shell.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
-	<build>
-
+    <build>
 		<plugins>
 			<plugin>
 				<groupId>org.graalvm.buildtools</groupId>
@@ -254,16 +209,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!--			<plugin>-->
-			<!--				<groupId>org.apache.maven.plugins</groupId>-->
-			<!--				<artifactId>maven-surefire-plugin</artifactId>-->
-			<!--				<version>3.1.2</version>-->
-			<!--			</plugin>-->
-			<!--			<plugin>-->
-			<!--				<groupId>org.apache.maven.plugins</groupId>-->
-			<!--				<artifactId>maven-war-plugin</artifactId>-->
-			<!--				<version>3.3.2</version>-->
-			<!--			</plugin>-->
 		</plugins>
 	</build>
 
