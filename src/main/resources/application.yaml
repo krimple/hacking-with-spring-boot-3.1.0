@@ -1,6 +1,14 @@
 spring:
-  profiles:
-    active: default
+
+  # disable Spring Shell by default
+  shell:
+    interactive:
+      enabled: false
+    noninteractive:
+      enabled: false
+    scripting:
+      enabled: false
+
   sql:
     init:
       schema-locations: classpath:schema.sql
